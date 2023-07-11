@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <form
+            id="dz_login_signin_form"
+            class="form-validate"
+            [formGroup]="loginForm"
+            (ngSubmit)="onLogin()"
+          >
+            <h3 class="text-center mb-4 text-black"></h3>
+            <div class="form-group">
+              <label class="mb-1" for="val-email"><strong>Email</strong></label>
+              <div>
+                <input
+                  type="email"
+                  class="form-control"
+                  formControlName="username"
+                  id="username"
+                  required
+                  placeholder="Your valid email.."
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="mb-1"><strong>Password</strong></label>
+              <div class="input-group">
+                <input
+                  type="password"
+                  class="form-control"
+                  formControlName="password"
+                  placeholder="Enter password.."
+                />
+              </div>
+            </div>
+            <div class="form-row d-flex justify-content-between mt-4 mb-2">
+              <div class="form-group">
+                <div class="custom-control custom-checkbox ml-1">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="basic_checkbox_1"
+                  />
+                  <label class="custom-control-label" for="basic_checkbox_1"
+                    >Remember my preference</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="text-center form-group">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                id="dz-signin-submit"
+              >
+                Sign In
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <form
+          id="dz_login_signin_form"
+          class="form-validate"
+          [formGroup]="createAccountForm"
+          (ngSubmit)="onCreateAccount()"
+        >
+          <div class="form-group">
+            <label for="firstName">Type</label>
+            <select
+              class="form-control"
+              formControlName="accountTyper"
+              id="accountTyper"
+            >
+             <option value="wallet">Wallet</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Default amount</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="currentBalance"
+              id="currentBalance"
+              placeholder="20"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
