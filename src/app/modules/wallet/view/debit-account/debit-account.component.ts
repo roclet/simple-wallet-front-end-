@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { DebitAccountRequest } from 'src/app/domain/account/debit-account-request';
 import { DebitAccountFacadeService } from '../../facades/debit-account-facade.service';
 import { DebitAccountService } from '../../service/debit-account.service';
+import { environment } from 'src/environments/environment';
+import { CreateAccountService } from '../../service/create-account.service';
+import jwt_decode from 'jwt-decode';
+import { CreateAccountRequest } from 'src/app/domain/account/create-account-request';
 type Entry = DebitAccountRequest;
 
 @Component({
@@ -16,16 +20,29 @@ export class DebitAccountComponent implements OnInit {
   createAccountForm!: FormGroup;
   private readonly valueFacade = inject(DebitAccountFacadeService);
   private readonly service = inject(DebitAccountService);
-  returnURL: any;
+  private readonly facade = inject(CreateAccountService);
+
+  private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
+  itemValues!: CreateAccountRequest;
+  
   constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
+    const token: any = jwt_decode(
+      localStorage.getItem(this.authLocalStorageToken)!
+    );
+    this.facade.getEntity(token.sub).subscribe({
+      next: (result: any) => {
+        if (result) {
+          this.itemValues = result;
+        }
+      },
+    });
     this.createForm();
   }
 
   createForm() {
     this.createAccountForm = this.formBuilder.group({
-      accountNumber: ['', [Validators.required]],
       amount: ['', [Validators.required]],
     });
   }
@@ -35,7 +52,7 @@ export class DebitAccountComponent implements OnInit {
     this.valueFacade.createEntity(model).subscribe({
       next: (result: any) => {
         if (result) {
-          console.log('onCreateAccount', result);
+          this.router.navigate(['/wallet/transaction/history']);
         }
       },
       error: (err: any) => console.log(err),
@@ -43,25 +60,15 @@ export class DebitAccountComponent implements OnInit {
   }
 
   getItemValue(): any {
+    const atodayString : string = new Date().toDateString();
     const data: Entry = {
-      accountNumber: this.randomString(10),
-      userId: 'roclet@gamil.com',
-      amount: this.createAccountForm.value.currentBalance,
-      transactionDateTime: '2021-20-12',
+      accountNumber: this.itemValues.accountNumber,
+      userId: this.itemValues.userId,
+      amount: this.createAccountForm.value.amount,
+      transactionDateTime: atodayString,
     };
     return data;
   }
 
-  randomString(length: number) {
-    var randomChars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var result = '';
-    for (var i = 0; i < length; i++) {
-      result += randomChars.charAt(
-        Math.floor(Math.random() * randomChars.length)
-      );
-    }
-    return result;
-  }
 
 }

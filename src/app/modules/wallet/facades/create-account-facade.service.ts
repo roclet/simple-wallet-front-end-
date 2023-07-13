@@ -20,4 +20,9 @@ export class CreateAccountFacadeService {
      return this.entities$;
    }
 
+   getEntity(name: string) {
+    this.service.getEntity(name).subscribe();
+    return this.repository.getEntity(name);
+  }
+
 }

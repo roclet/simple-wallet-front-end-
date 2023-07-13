@@ -1,1 +1,14 @@
-<p>acoount-balance works!</p>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let col of displayHeader">{{ col }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of itemValues">
+        <th scope="row">{{row.accountNumber}}</th>
+        <td>{{row.currentBalance}}</td>
+      </tr>
+    </tbody>
+  </table>

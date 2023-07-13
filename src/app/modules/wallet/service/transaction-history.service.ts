@@ -17,15 +17,17 @@ export class TransactionHistoryService{
   private http: HttpClient = inject(HttpClient);
   private repo = inject(TransactionHistoryRepository);
   private options: { headers: HttpHeaders } = {headers: HttpUtil.headers()};
-  private  URL = BE_BASE_URL + '/api/wallet/';
+  private option: { headers: HttpHeaders } = {headers: HttpUtil.unHeaders()};
+  private  URL = BE_BASE_URL + '/api/v1/wallet/auth/';
 
   getEntity(userId: string): Observable<Entity> {
-    const url = this.URL + 'transaction/history' + userId;
-    return this.http.get<Entity>(url, this.options)
+    const url = this.URL + 'transaction/history?userId='+ userId;
+    return this.http.get<Entity>(url, this.option)
       .pipe(
         tap((entity) => this.repo.addEntity(entity)),
         trackRequestResult([this.repo.getStoreName(), userId]),
         catchError(err => ApiError.handleError<Entity[]>(err, 'get Entity'))
       );
   }
+  
 }

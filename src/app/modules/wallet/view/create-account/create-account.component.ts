@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { CreateAccountRequest } from 'src/app/domain/account/create-account-request';
 import { CreateAccountService } from '../../service/create-account.service';
 import { CreateAccountFacadeService } from '../../facades/create-account-facade.service';
+import { environment } from 'src/environments/environment';
+import jwt_decode from 'jwt-decode';
+import { HttpUtil } from 'src/app/shared/http-util';
 type Entry = CreateAccountRequest;
 
 @Component({
@@ -13,6 +16,7 @@ type Entry = CreateAccountRequest;
 })
 export class CreateAccountComponent implements OnInit {
 
+  private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
   createAccountForm!: FormGroup;
   private readonly valueFacade = inject(CreateAccountFacadeService);
   private readonly service = inject(CreateAccountService);
@@ -37,7 +41,7 @@ export class CreateAccountComponent implements OnInit {
       .subscribe({
         next: (result:any) => {
             if (result) {
-              console.log("onCreateAccount", result);
+              this.router.navigate(['/wallet/transaction/history']);
             }
             
         }, error: (err:any) => console.log(err)
@@ -45,23 +49,17 @@ export class CreateAccountComponent implements OnInit {
   }
 
   getItemValue(): any {
+    const token: any = jwt_decode(localStorage.getItem(this.authLocalStorageToken)!);
+    const atodayString : string = new Date().toDateString();
     const data:Entry = {
-      transactionId : this.randomString(10),
-      accountNumber :this.randomString(10),
-      userId : 'roclet@gamil.com',
+      transactionId : HttpUtil.randomString(4),
+      accountNumber : HttpUtil.randomString(10),
+      userId : token.sub,
       accountTyper: this.createAccountForm.value.accountTyper,
       currentBalance: this.createAccountForm.value.currentBalance,
-      modifiedDateTime: '2021-20-12'
+      modifiedDateTime: atodayString
     };
     return data;
   }
 
-  randomString(length: number) {
-    var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var result = '';
-    for ( var i = 0; i < length; i++ ) {
-        result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
-    }
-    return result;
- }
 }

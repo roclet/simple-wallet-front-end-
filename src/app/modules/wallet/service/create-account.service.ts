@@ -23,11 +23,14 @@ export class CreateAccountService {
   
   private http: HttpClient = inject(HttpClient);
   private repo: CreateAccountRepository = inject(CreateAccountRepository);
+  // requestHeader = new HttpHeaders({ 'No-Auth': 'false' });
   private options: { headers: HttpHeaders } = {headers: HttpUtil.headers()};
   private option: { headers: HttpHeaders } = {headers: HttpUtil.unHeaders()};
-  private  URL = BE_BASE_URL + '/api/wallet/';
+  private  URL = BE_BASE_URL + '/api/v1/wallet/auth/';
+  //private  URL = BE_BASE_URL + '/api/v1/wallet/auth/';
 
   createEntity(entity: Entity): Observable<Entity> {
+
     const url = this.URL + 'create/account';
     return this.http.post<Entity>(url, entity, this.option)
       .pipe(
@@ -37,14 +40,14 @@ export class CreateAccountService {
       );
   }
 
-//   getEntities(): Observable<Entity[]> {
-//     const url = this.URL + 'transaction/history';
-//     return this.http.get<Entity[]>(url, this.options)
-//       .pipe(
-//         tap((entities) => this.repo.addEntities(entities)),
-//         trackRequestResult([this.repo.getStoreName(), name]),
-//         catchError(err => ApiError.handleError<Entity[]>(err, 'get Entities'))
-//       );
-//   }
+  getEntity(userId: string): Observable<Entity> {
+    const url = this.URL + 'get/wallet/account?userId='+ userId;
+    return this.http.get<Entity>(url, this.option)
+      .pipe(
+        tap((entity) => this.repo.addEntity(entity)),
+        trackRequestResult([this.repo.getStoreName(), userId]),
+        catchError(err => ApiError.handleError<Entity[]>(err, 'get Entity'))
+      );
+  }
   
 }

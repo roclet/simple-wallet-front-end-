@@ -5,6 +5,7 @@ import { TransactionHistoryComponent } from './view/transaction-history/transact
 import { CreateAccountComponent } from './view/create-account/create-account.component';
 import { DebitAccountComponent } from './view/debit-account/debit-account.component';
 import { CreditAccountComponent } from './view/credit-account/credit-account.component';
+import { AcoountBalanceComponent } from './view/acoount-balance/acoount-balance.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
     component: LandingComponent,
     children: [
       {path: '', component: CreateAccountComponent},
-      {path: 'balance/account', component: CreateAccountComponent},
+      {path: 'balance/account', component: AcoountBalanceComponent},
       {path: 'credit/account', component: CreditAccountComponent},
       {path: 'debit/account', component: DebitAccountComponent},
       {path: 'transaction/history', component: TransactionHistoryComponent},

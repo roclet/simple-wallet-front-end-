@@ -12,7 +12,7 @@ import {createStore} from "@ngneat/elf";
 import { TransactionHistory } from "src/app/domain/transaction-history/transaction-history-repository.model";
 
 
-const storeName = 'forestry-indicators';
+const storeName = 'transaction-history';
 type  idType = 'userId';
 const  storeId = 'userId';
 type Entity = TransactionHistory;

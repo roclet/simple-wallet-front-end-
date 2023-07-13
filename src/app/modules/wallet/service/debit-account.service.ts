@@ -25,7 +25,7 @@ export class DebitAccountService {
   private repo: DebitAccountRepository = inject(DebitAccountRepository);
   private options: { headers: HttpHeaders } = {headers: HttpUtil.headers()};
   private option: { headers: HttpHeaders } = {headers: HttpUtil.unHeaders()};
-  private  URL = BE_BASE_URL + '/api/wallet/';
+  private  URL = BE_BASE_URL + '/api/v1/wallet/auth';
 
   createEntity(entity: Entity): Observable<Entity> {
     const url = this.URL + '/debit/account';

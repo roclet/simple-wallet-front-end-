@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DataTableComponent implements OnInit {
   @Input() displayHeader: string[] = [];
-  @Input() tableRows: [] = [];
+  @Input() tableRows: any[] = [];
   constructor() { }
 
   ngOnInit(): void {

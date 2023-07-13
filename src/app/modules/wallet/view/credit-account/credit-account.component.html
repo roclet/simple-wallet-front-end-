@@ -8,15 +8,7 @@
             [formGroup]="createAccountForm"
             (ngSubmit)="onCreateAccount()"
           >
-            <div class="form-group">
-              <label for="firstName">Account Number</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="accountNumber"
-                id="accountNumber"
-              />
-            </div>
+            
             <div class="form-group">
               <label for="lastName">Amount</label>
               <input
@@ -27,7 +19,7 @@
                 placeholder="20"
               />
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Credit</button>
           </form>
         </div>
       </div>
